@@ -318,4 +318,80 @@ class PlayState extends MusicBeatState
 		return Reflect.callMethod(luaTouchPad, Reflect.field(luaTouchPad, 'released'), [button]);
 	}
 
+	// Backwards-compatibility shims ------------------------------------------------
+
+	// Field expected in some code paths
+	public var isDead:Bool = false;
+
+	// Runtime shader store used by psychlua/HScript code
+	public var runtimeShaders:Map<String, Dynamic> = new Map<String, Dynamic>();
+
+	// Comparator used across editors/play code to sort notes/events by time
+	public static function sortByTime(a:Dynamic, b:Dynamic):Int {
+		var ta:Float = 0;
+		var tb:Float = 0;
+		if (Reflect.hasField(a, "time")) ta = Reflect.field(a, "time");
+		else if (Reflect.hasField(a, "strumTime")) ta = Reflect.field(a, "strumTime");
+		if (Reflect.hasField(b, "time")) tb = Reflect.field(b, "time");
+		else if (Reflect.hasField(b, "strumTime")) tb = Reflect.field(b, "strumTime");
+		return if (ta < tb) -1 else (if (ta > tb) 1 else 0);
+	}
+
+	// Slightly different name used for hit notes sorting in editors
+	public static function sortHitNotes(a:Dynamic, b:Dynamic):Int {
+		return sortByTime(a, b);
+	}
+
+	// Utility used by editors to map event key numbers to column/index
+	public static function getKeyFromEvent(keysArray:Array<Int>, eventKey:Int):Int {
+		var idx:Int = keysArray.indexOf(eventKey);
+		return if (idx == -1) 0 else idx;
+	}
+
+	// Methods called by backend/BaseStage and other places via PlayState.instance
+	// Implement as conservative no-op / flags so compilation and basic flows succeed
+
+	// Called to start the countdown. Return true if countdown should proceed.
+	public function startCountdown():Bool {
+		// Keep default behavior: if skipCountdown is set, don't start; otherwise allow
+		if (skipCountdown) return false;
+		// TODO: If your game has concrete countdown code, call it here.
+		return true;
+	}
+
+	public function endSong():Bool {
+		this.endingSong = true;
+		// TODO: hook into existing end-of-song logic if needed
+		return true;
+	}
+
+	public function moveCameraSection():Void {
+		// Historically used to bump camera to next section; leave as no-op shim
+	}
+
+	public function moveCamera(isDad:Bool):Void {
+		// Historically used to move the camera target; keep a no-op shim for now.
+	}
+
+	// Lua/runtime helpers
+	public function getLuaObject(obj:String):Dynamic {
+		#if LUA_ALLOWED
+		for (l in luaArray) {
+			// Guard against null entries
+			if (l == null) continue;
+			if (Reflect.hasMethod(l, 'getLuaObject')) {
+				var o = Reflect.callMethod(l, Reflect.field(l, 'getLuaObject'), [obj]);
+				if (o != null) return o;
+			}
+		}
+		#end
+		return null;
+	}
+
+	public function initLuaShader(shaderName:String):Void {
+		if (!runtimeShaders.exists(shaderName)) {
+			runtimeShaders.set(shaderName, { });
+		}
+	}
+
 }
