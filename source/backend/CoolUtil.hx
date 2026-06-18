@@ -151,9 +151,9 @@ class CoolUtil
 
 	/**
 		Helper Function to Fix Save Files for Flixel 5
-
+	
 		-- EDIT: [November 29, 2023] --
-
+	
 		this function is used to get the save path, period.
 		since newer flixel versions are being enforced anyways.
 		@crowplexus
@@ -179,5 +179,32 @@ class CoolUtil
 			default:
 				text.borderStyle = NONE;
 		}
+	}
+
+	// Added missing helper used by mobile UI and build
+	public static function showPopUp(message:String, title:String = "Notice"):Void {
+		#if sys
+			trace('$title: $message');
+		#else
+			try {
+				FlxG.log.add('$title: $message');
+			} catch(e:Dynamic) {
+				trace('$title: $message');
+			}
+		#end
+	}
+
+	// Returns number of CPU threads available (best-effort fallback)
+	public static function getCPUThreadsCount():Int {
+		#if sys
+			try {
+				var env = Sys.getEnv('NUMBER_OF_PROCESSORS');
+				if (env != null) {
+					var n = Std.parseInt(env);
+					if (n > 0) return n;
+				}
+			} catch(e:Dynamic) {}
+		#end
+		return 1;
 	}
 }
