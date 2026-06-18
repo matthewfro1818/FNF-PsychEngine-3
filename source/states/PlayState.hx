@@ -317,3 +317,5 @@ class PlayState extends MusicBeatState
 		if (luaTouchPad == null) return false;
 		return Reflect.callMethod(luaTouchPad, Reflect.field(luaTouchPad, 'released'), [button]);
 	}
+
+}
