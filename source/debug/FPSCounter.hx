@@ -71,4 +71,16 @@ class FPSCounter extends TextField
 
 	inline function get_memoryMegas():Float
 		return cpp.vm.Gc.memInfo64(cpp.vm.Gc.MEM_INFO_USAGE);
+
+	// Added to match usage in Main for positioning and scaling the FPS display
+	public function positionFPS(xPos:Float, yPos:Float, scale:Float):Void {
+		try {
+			this.x = xPos;
+			this.y = yPos;
+			this.scaleX = scale;
+			this.scaleY = scale;
+		} catch(e:Dynamic) {
+			// fallback no-op
+		}
+	}
 }
