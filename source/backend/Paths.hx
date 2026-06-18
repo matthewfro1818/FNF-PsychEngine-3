@@ -180,25 +180,25 @@ class Paths
 	inline public static function getSharedPath(file:String = '')
 		return 'assets/shared/$file';
 
-	inline static public function txt(key:String, ?folder:String)
+	inline public static function txt(key:String, ?folder:String)
 		return getPath('data/$key.txt', TEXT, folder, true);
 
-	inline static public function xml(key:String, ?folder:String)
+	inline public static function xml(key:String, ?folder:String)
 		return getPath('data/$key.xml', TEXT, folder, true);
 
-	inline static public function json(key:String, ?folder:String)
+	inline public static function json(key:String, ?folder:String)
 		return getPath('data/$key.json', TEXT, folder, true);
 
-	inline static public function chart(song:String, difficulty:String)
+	inline public static function chart(song:String, difficulty:String)
 		return backend.Song.chartPath;
 
-	inline static public function shaderFragment(key:String, ?folder:String)
+	inline public static function shaderFragment(key:String, ?folder:String)
 		return getPath('shaders/$key.frag', TEXT, folder, true);
 
-	inline static public function shaderVertex(key:String, ?folder:String)
+	inline public static function shaderVertex(key:String, ?folder:String)
 		return getPath('shaders/$key.vert', TEXT, folder, true);
 
-	inline static public function lua(key:String, ?folder:String)
+	inline public static function lua(key:String, ?folder:String)
 		return getPath('$key.lua', TEXT, folder, true);
 
 	static public function video(key:String)
@@ -306,6 +306,21 @@ class Paths
 		return (FileSystem.exists(path)) ? File.getContent(path) : null;
 		#else
 		return (OpenFlAssets.exists(path, TEXT)) ? Assets.getText(path) : null;
+		#end
+	}
+
+	// Added readDirectory helper so mobile builds can iterate directories safely
+	inline static public function readDirectory(folder:String):Array<String>
+	{
+		#if sys
+		try {
+			return FileSystem.readDirectory(folder);
+		} catch(e:Dynamic) {
+			return [];
+		}
+		#else
+		// Non-sys targets don't have filesystem access from Haxe — return empty array
+		return [];
 		#end
 	}
 
