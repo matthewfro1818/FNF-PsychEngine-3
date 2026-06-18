@@ -21,6 +21,15 @@ import states.TitleState;
 	public var lowQuality:Bool = false;
 	public var shaders:Bool = true;
 	public var cacheOnGPU:Bool = #if !switch false #else true #end; // GPU Caching made by Raltyro
+
+	// Mobile-related preferences (compatibility fields expected by mobile code)
+	public var dynamicColors:Bool = true;
+	public var controlsAlpha:Float = 100.0;
+	public var hitboxPos:Bool = false;
+	public var hitboxType:String = "Gradient";
+	public var extraButtons:String = "default";
+	public var wideScreen:Bool = false;
+
 	public var framerate:Int = 60;
 	public var camZooms:Bool = true;
 	public var hideHud:Bool = false;
