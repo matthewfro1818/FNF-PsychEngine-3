@@ -13,7 +13,7 @@ permissions:
 
 env:
   PROJECT_NAME: PsychEngine
-  REPO_PATH: froncekmatthew173-bot/FNF-PsychEngine-2
+  REPO_PATH: matthewfro1818/FNF-PsychEngine-3
 
 jobs:
   get-commit-hash:
