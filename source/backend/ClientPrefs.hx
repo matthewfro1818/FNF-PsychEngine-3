@@ -28,7 +28,6 @@ import states.TitleState;
 	public var hitboxPos:Bool = false;
 	public var hitboxType:String = "Gradient";
 	public var extraButtons:String = "default";
-	public var vsync:Bool = true;
 	public var screensaver:Bool = false;
 	public var wideScreen:Bool = false;
 
@@ -92,6 +91,7 @@ import states.TitleState;
 	public var discordRPC:Bool = true;
 	public var loadingScreen:Bool = true;
 	public var language:String = 'en-US';
+	public var vsync:Bool = true;
 }
 
 class ClientPrefs {

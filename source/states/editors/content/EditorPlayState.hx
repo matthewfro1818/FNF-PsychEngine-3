@@ -651,7 +651,7 @@ class EditorPlayState extends MusicBeatSubstate
 		});
 	}
 
-	private function onKeyPress(event:KeyboardEvent, key:Int):Void
+	private function onKeyPress(event:KeyboardEvent):Void
 	{
 		var eventKey:FlxKey = event.keyCode;
 		// Change keysArray from Array<String> to Array<Int>
@@ -663,8 +663,6 @@ class EditorPlayState extends MusicBeatSubstate
 			//Prevents crash specifically on debug without needing to try catch shit
 			@:privateAccess if (!FlxG.keys._keyListMap.exists(eventKey)) return;
 			#end
-	
-			if(FlxG.keys.checkStatus(eventKey, JUST_PRESSED)) keyPressed(key);
 		}
 	}
 
@@ -721,10 +719,16 @@ class EditorPlayState extends MusicBeatSubstate
 	private function onKeyRelease(event:KeyboardEvent):Void
 	{
 		var eventKey:FlxKey = event.keyCode;
-		var key:Int = PlayState.getKeyFromEvent(keysArray, eventKey);
-		//trace('Pressed: ' + eventKey);
+		// Change keysArray from Array<String> to Array<Int>
+		var keysArray:Array<Int> = [0, 1, 2, 3];  // Note indices instead of strings
 
-		if(!controls.controllerMode && key > -1) keyReleased(key);
+		if (!controls.controllerMode)
+		{
+			#if debug
+			//Prevents crash specifically on debug without needing to try catch
+			@:privateAccess if (!FlxG.keys._keyListMap.exists(eventKey)) return;
+			#end
+		}
 	}
 
 	private function keyReleased(key:Int)
