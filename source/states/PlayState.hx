@@ -648,8 +648,8 @@ class PlayState extends MusicBeatState
 		startCallback();
 		RecalculateRating(false, false);
 
-		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
-		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
+		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN);
+		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP);
 
 		//PRECACHING THINGS THAT GET USED FREQUENTLY TO AVOID LAGSPIKES
 		if(ClientPrefs.data.hitsoundVolume > 0) Paths.sound('hitsound');
@@ -3563,8 +3563,8 @@ class PlayState extends MusicBeatState
 		}
 		#end
 
-		FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
-		FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
+		FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN);
+		FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP);
 
 		FlxG.camera.setFilters([]);
 
