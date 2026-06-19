@@ -3114,7 +3114,7 @@ class PlayState extends MusicBeatState
 		callOnScripts('onKeyRelease', [key]);
 	}
 
-	public static function getKeyFromEvent(keys:Array<Int>, eventKey:Int, key:Int):Int
+	public static function getKeyFromEvent(keys:Array<Int>, eventKey:Int, key:Int, arr:Int):Int
 	{
 		if(key != NONE)
 		{
