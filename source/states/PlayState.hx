@@ -3005,11 +3005,10 @@ class PlayState extends MusicBeatState
 	}
 
 	public var strumsBlocked:Array<Bool> = [];
-	private function onKeyPress(event:KeyboardEvent):Void
+	private function onKeyPress(event:KeyboardEvent, key:Int):Void
 	{
 
 		var eventKey:FlxKey = event.keyCode;
-		var key:Int = getKeyFromEvent(eventKey);
 
 		if (!controls.controllerMode)
 		{
@@ -3093,10 +3092,9 @@ class PlayState extends MusicBeatState
 		return FlxSort.byValues(FlxSort.ASCENDING, a.strumTime, b.strumTime);
 	}
 
-	private function onKeyRelease(event:KeyboardEvent):Void
+	private function onKeyRelease(event:KeyboardEvent, key:Int):Void
 	{
 		var eventKey:FlxKey = event.keyCode;
-		var key:Int = getKeyFromEvent(keysArray, eventKey);
 		if(!controls.controllerMode && key > -1) keyReleased(key);
 	}
 
