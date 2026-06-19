@@ -3009,7 +3009,7 @@ class PlayState extends MusicBeatState
 	{
 
 		var eventKey:FlxKey = event.keyCode;
-		var key:Int = getKeyFromEvent(keysArray, eventKey);
+		var key:Int = getKeyFromEvent(eventKey);
 
 		if (!controls.controllerMode)
 		{
