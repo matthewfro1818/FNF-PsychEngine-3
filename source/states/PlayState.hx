@@ -648,8 +648,8 @@ class PlayState extends MusicBeatState
 		startCallback();
 		RecalculateRating(false, false);
 
-		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN);
-		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP);
+		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
+		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
 
 		//PRECACHING THINGS THAT GET USED FREQUENTLY TO AVOID LAGSPIKES
 		if(ClientPrefs.data.hitsoundVolume > 0) Paths.sound('hitsound');
@@ -3007,25 +3007,15 @@ class PlayState extends MusicBeatState
 	public var strumsBlocked:Array<Bool> = [];
 	private function onKeyPress(event:KeyboardEvent, key:Int):Void
 	{
-
 		var eventKey:FlxKey = event.keyCode;
-
-		if (!controls.controllerMode)
-		{
-			#if debug
-			//Prevents crash specifically on debug without needing to try catch shit
-			@:privateAccess if (!FlxG.keys._keyListMap.exists(eventKey)) return;
-			#end
-
-			if(FlxG.keys.checkStatus(eventKey, JUST_PRESSED)) keyPressed(key);
-		}
+		if(!controls.controllerMode && key > -1) keyPressed(key);
 	}
 
 	private function keyPressed(key:Int)
 	{
 		if(cpuControlled || paused || inCutscene || key < 0 || key >= playerStrums.length || !generatedMusic || endingSong || boyfriend.stunned) return;
 
-		var ret:Dynamic = callOnScripts('onKeyPressPre', [key]);
+		var ret:Dynamic = callOnScripts('onKeyPressPress', [key]);
 		if(ret == LuaUtils.Function_Stop) return;
 
 		// more accurate hit time for the ratings?
@@ -3102,7 +3092,7 @@ class PlayState extends MusicBeatState
 	{
 		if(cpuControlled || !startedCountdown || paused || key < 0 || key >= playerStrums.length) return;
 
-		var ret:Dynamic = callOnScripts('onKeyReleasePre', [key]);
+		var ret:Dynamic = callOnScripts('onKeyReleasePress', [key]);
 		if(ret == LuaUtils.Function_Stop) return;
 
 		var spr:StrumNote = playerStrums.members[key];
@@ -3563,8 +3553,8 @@ class PlayState extends MusicBeatState
 		}
 		#end
 
-		FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN);
-		FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP);
+		FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
+		FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
 
 		FlxG.camera.setFilters([]);
 
