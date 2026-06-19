@@ -1564,7 +1564,7 @@ class FunkinLua {
 		ReflectionFunctions.implement(this);
 		TextFunctions.implement(this);
 		ExtraFunctions.implement(this);
-		CustomSubstate.implement(this);
+		// CustomSubstate.implement(this);
 		ShaderFunctions.implement(this);
 		DeprecatedFunctions.implement(this);
 		MobileFunctions.implement(this);
