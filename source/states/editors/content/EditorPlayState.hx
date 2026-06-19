@@ -651,14 +651,11 @@ class EditorPlayState extends MusicBeatSubstate
 		});
 	}
 
-	private function onKeyPress(event:KeyboardEvent):Void
+	private function onKeyPress(event:KeyboardEvent, key:Int):Void
 	{
 		var eventKey:FlxKey = event.keyCode;
 		// Change keysArray from Array<String> to Array<Int>
         var keysArray:Array<Int> = [0, 1, 2, 3];  // Note indices instead of strings
-
-        // OR update the method call to pass integers
-        var key:Int = PlayState.getKeyFromEvent(keysArray, eventKey);
 
 		if (!controls.controllerMode)
 		{
