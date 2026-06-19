@@ -28,6 +28,7 @@ import states.TitleState;
 	public var hitboxPos:Bool = false;
 	public var hitboxType:String = "Gradient";
 	public var extraButtons:String = "default";
+	public var screensaver:Bool = false;
 	public var wideScreen:Bool = false;
 
 	public var framerate:Int = 60;
